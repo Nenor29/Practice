@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4">
+      <!-- User info card -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Информация о пользователе</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Username:</strong> {{ user.username }}</p>
+
+          <p><strong>Email:</strong> {{ user.email }}</p>
+          <p><strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+        </div>
+        
+
+      </div>
+      <form action="{% url 'edit-profile' %}">
+        <button class="btn btn-outline-success" type="submit">Изменить пароль</button>
+    </form>
+    
+    </div>
+    
+    <div class="col-md-8">
+      <!-- Activity card -->
+      
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  /* User Profile Styling */
+:root {
+  --primary-color: #4a6fa5;
+  --secondary-color: #6b8cae;
+  --accent-color: #88a2bc;
+  --light-accent: #d0dbe7;
+  --dark-accent: #2c4053;
+  --gradient-start: #4a6fa5;
+  --gradient-end: #88a2bc;
+  --card-bg: #ffffff;
+  --border-color: rgba(107, 140, 174, 0.2);
+  --hover-shadow: rgba(44, 64, 83, 0.15);
+  --text-primary: #2c4053;
+  --text-secondary: #5b7a9a;
+  --text-muted: #8096ab;
+}
+
+/* Profile container */
+.container.mt-5 {
+  margin-top: 3rem !important;
+}
+
+/* Card styling */
+.card {
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(44, 64, 83, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.card:hover {
+  box-shadow: 0 8px 20px var(--hover-shadow);
+  transform: translateY(-3px);
+}
+
+/* Card header */
+.card-header {
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  color: white;
+  border-bottom: none;
+  padding: 1rem 1.25rem;
+}
+
+.card-header h5 {
+  font-weight: 600;
+  margin-bottom: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Card body */
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-body p {
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid var(--light-accent);
+  padding-bottom: 0.8rem;
+}
+
+.card-body p:last-child {
+  margin-bottom: 0;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.card-body p strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  display: inline-block;
+  width: 100px;
+}
+
+/* Button styling */
+.btn-outline-success {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  border-radius: 6px;
+  padding: 0.5rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.btn-outline-success:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 4px 8px var(--hover-shadow);
+}
+
+/* Text styling */
+.text-muted {
+  color: var(--text-muted) !important;
+  font-style: italic;
+}
+
+/* User info section */
+.user-info strong {
+  color: var(--primary-color);
+}
+
+/* Activity section */
+.activity-empty {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .container.mt-5 {
+    margin-top: 1.5rem !important;
+  }
+  
+  .card-body {
+    padding: 1rem;
+  }
+  
+  .btn-outline-success {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* Extra decorative elements */
+.user-profile-header::after {
+  content: '';
+  display: block;
+  height: 3px;
+  width: 50px;
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  margin-top: 10px;
+  border-radius: 2px;
+}
+
+/* Add a subtle texture to the background */
+body {
+  background-color: #f8fafc;
+  background-image: linear-gradient(120deg, #f8fafc 0%, #edf2f7 100%);
+  min-height: 100vh;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,217 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+  <div class="container">
+      <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
+          <div class="logo-icon bg-gradient-primary text-white rounded">
+              <i class="fas fa-cubes"></i>
+          </div>
+          <span class="ms-2 fw-bold">BIM Knowledge Base</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+              aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                  <a class="nav-link {% if request.path == '/' %}active{% endif %} px-3" href="{% url 'home' %}">
+                      <i class="fas fa-home me-1"></i>Главная
+                  </a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle px-3" href="#" id="navbarCategories" role="button" 
+                     data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="fas fa-folder me-1"></i>Категории
+                  </a>
+                  <ul class="dropdown-menu shadow border-0" aria-labelledby="navbarCategories">
+                      {% for category in menu %}
+                          <li><a class="dropdown-item py-2" href="{{ category.get_absolute_url }}">{{ category.name }}</a></li>
+                      {% empty %}
+                          <li><span class="dropdown-item text-muted py-2">Нет доступных категорий</span></li>
+                      {% endfor %}
+                  </ul>
+              </li>
+          </ul>
+          
+          <!-- Search Form -->
+          <form class="d-flex mx-auto search-form" method="POST" action="{% url 'search_results' %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <input class="form-control search-input border-end-0" type="search" placeholder="Поиск в базе знаний..."
+                       aria-label="Search" name="searched" value="{{ request.POST.searched|default:'' }}">
+                <button class="btn search-btn border-start-0" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+          </form>
+          
+          <!-- User Menu -->
+          <ul class="navbar-nav ms-auto">
+              {% if user.is_authenticated %}
+                  <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle user-menu d-flex align-items-center" href="#" id="navbarUser" role="button" 
+                         data-bs-toggle="dropdown" aria-expanded="false">
+                          <div class="user-avatar me-2">
+                              <i class="fas fa-user-circle"></i>
+                          </div>
+                          <span>{{ user.username }}</span>
+                      </a>
+                      <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="navbarUser">
+                          <li><a class="dropdown-item py-2" href="{% url 'profile' %}">
+                              <i class="fas fa-user me-2"></i>Профиль
+                          </a></li>
+                          {% if user.is_staff %}
+                              <li><a class="dropdown-item py-2" href="{% url 'admin:index' %}">
+                                  <i class="fas fa-cog me-2"></i>Админ панель
+                              </a></li>
+                              <li><hr class="dropdown-divider"></li>
+                          {% endif %}
+                          <li>
+                              <form method="post" action="{% url 'logout' %}">
+                                  {% csrf_token %}
+                                  <button class="dropdown-item py-2" type="submit">
+                                      <i class="fas fa-sign-out-alt me-2"></i>Выйти
+                                  </button>
+                              </form>
+                          </li>
+                      </ul>
+                  </li>
+              {% else %}
+                  <li class="nav-item me-2">
+                      <a class="nav-link btn btn-outline-primary login-btn px-3" href="{% url 'login' %}">
+                          <i class="fas fa-sign-in-alt me-1"></i>Войти
+                      </a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link btn btn-primary signup-btn px-3 text-white" href="{% url 'signup' %}">
+                          <i class="fas fa-user-plus me-1"></i>Регистрация
+                      </a>
+                  </li>
+              {% endif %}
+          </ul>
+      </div>
+  </div>
+</nav>
+
+<style>
+    /* Navbar Styles */
+    .navbar {
+        padding: 15px 0;
+        transition: all 0.3s ease;
+    }
+    
+    .logo-icon {
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+    }
+    
+    .navbar-brand {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+    
+    .nav-link {
+        font-weight: 500;
+        color: #2c3e50;
+        transition: all 0.2s ease;
+    }
+    
+    .nav-link:hover, .nav-link.active {
+        color: #3498db;
+    }
+    
+    .search-form {
+        width: 300px;
+    }
+    
+    .search-input {
+        border-radius: 20px 0 0 20px;
+        border-color: #e9ecef;
+        background-color: #f8f9fa;
+    }
+    
+    .search-input:focus {
+        background-color: #fff;
+        box-shadow: none;
+        border-color: #3498db;
+    }
+    
+    .search-btn {
+        border-radius: 0 20px 20px 0;
+        background-color: #f8f9fa;
+        border-color: #e9ecef;
+        color: #2c3e50;
+    }
+    
+    .search-btn:hover {
+        background-color: #3498db;
+        border-color: #3498db;
+        color: white;
+    }
+    
+    .user-avatar {
+        font-size: 22px;
+        color: #2c3e50;
+    }
+    
+    .dropdown-menu {
+        border-radius: 8px;
+    }
+
+    .dropdown-item {
+        transition: all 0.2s ease;
+    }
+    
+    .dropdown-item:hover {
+        background-color: #f8f9fa;
+        color: #3498db;
+    }
+    
+    .login-btn, .signup-btn {
+        border-radius: 20px;
+        padding: 5px 15px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    .login-btn {
+        border-color: #2c3e50;
+        color: #2c3e50;
+    }
+    
+    .login-btn:hover {
+        background-color: #2c3e50;
+        color: white;
+    }
+    
+    .signup-btn {
+        background-color: #2c3e50;
+        border-color: #2c3e50;
+    }
+    
+    .signup-btn:hover {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+    
+    /* Mobile Responsiveness */
+    @media (max-width: 991.98px) {
+        .search-form {
+            width: 100%;
+            margin: 15px 0;
+        }
+        
+        .navbar-nav {
+            padding-top: 10px;
+        }
+    }
+</style>

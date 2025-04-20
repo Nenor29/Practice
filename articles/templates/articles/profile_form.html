@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title mb-4">
+          Изменение пароля
+        </h2>
+
+        <form method="post" class="mb-3">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-success">Сменить пароль</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

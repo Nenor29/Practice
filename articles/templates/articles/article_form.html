@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="card-title mb-4">
+          {% if article %}
+            ✏️ Редактировать статью: <strong>{{ article.title }}</strong>
+          {% else %}
+            ➕ Добавить статью в категорию: <strong>{{ parent.name }}</strong>
+          {% endif %}
+        </h2>
+
+        <form method="post" class="mb-3">
+          {% csrf_token %}
+          {{ form.media }}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-success">💾 Сохранить статью</button>
+        </form>
+
+        {% if article %}
+          <form method="post" action="{% url 'article_delete' article.id %}" onsubmit="return confirm('Вы уверены, что хотите удалить эту статью?');">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Удалить статью</button>
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

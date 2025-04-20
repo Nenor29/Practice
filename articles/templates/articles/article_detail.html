@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+<section class="article-header">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{{ article.category.get_absolute_url }}">{{ article.category.name }}</a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="article-meta-header">
+            <h1 class="article-title mb-3">{{ article.title }}</h1>
+
+            <div class="article-meta">
+                {% if request.user.is_staff %}
+                    <div class="article-actions my-3">
+                        
+                        <a href="{% url 'article_edit' article.pk %}" class="btn btn-warning me-2">
+                            <i class="fas fa-edit"></i> Редактировать
+                        </a>
+                        
+                    </div>
+                {% endif %}
+
+
+                <div class="author-info mt-2">
+                    <span class="author-avatar"><i class="fas fa-user-circle"></i></span>
+                    <span class="author-name">{{ article.author.username }}</span>
+                </div>
+
+                <div class="article-details text-muted mt-2">
+                    <span class="me-3">
+                        <i class="fas fa-calendar-alt me-1"></i> {{ article.created_date|date:"F d, Y" }}
+                        {% if article.updated_date != article.created_date %}
+                        <small>(Updated: {{ article.updated_date|date:"F d, Y" }})</small>
+                        {% endif %}
+                    </span>
+
+                    <span class="me-3">
+                        <i class="fas fa-folder me-1"></i>
+                        <a href="{{ article.category.get_absolute_url }}">{{ article.category.name }}</a>
+                    </span>
+
+                    <span>
+                        <i class="fas fa-clock me-1"></i>
+                        {% with word_count=article.content|wordcount %}
+                            {% widthratio word_count 200 1 %} min read
+                        {% endwith %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="article-body py-5" style="background-color: #fdfaf6;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="p-4 rounded shadow-sm bg-white">
+                    <div class="article-content">
+                        <div id="editor" class="ck-editable">
+                            {{ article.content|safe }}
+                        </div>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+
+            
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="{% static 'ckeditor.js' %}"></script>
+<script>
+    InlineEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            window.editor = editor;
+            
+            const saveButton = document.createElement('button');
+            saveButton.innerText = 'Сохранить изменения';
+            saveButton.classList.add('btn', 'btn-primary', 'mt-3');
+            document.querySelector('.article-content').after(saveButton);
+
+            saveButton.addEventListener('click', () => {
+                const updatedContent = editor.getData();
+
+                fetch("{% url 'article_update_ajax' article.id %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}',
+                    },
+                    body: JSON.stringify({
+                        content: updatedContent
+                    })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('✅ Сохранено!');
+                    } else {
+                        alert('❌ Ошибка при сохранении.');
+                    }
+                });
+            });
+        })
+        .catch(error => {
+            console.error('Ошибка инициализации редактора:', error);
+        });
+</script>
+{% endblock %}

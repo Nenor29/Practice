@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if search_query %}
+<div class="container mt-4">
+    <h1>Результаты поиска для "{{ search_query }}"</h1>
+    
+    {% if search_categories %}
+        <h2>Категории</h2>
+        <div class="list-group mb-4">
+            {% for category in search_categories %}
+                <a href="{{ category.get_absolute_url }}" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">{{ category.name }}</h5>
+                    <p class="mb-1">{{ category.description|truncatewords:20 }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if search_articles %}
+        <h2>Статьи</h2>
+        <div class="list-group">
+            {% for article in search_articles %}
+                <a href="{{ article.get_absolute_url }}" class="list-group-item list-group-item-action">
+                    <h5 class="mb-1">{{ article.title }}</h5>
+                    <p class="mb-1">{{ article.snippet }}</p>
+                    <small>Последнее изменение: {{ article.updated_date|date:"F d, Y" }}</small>
+                </a>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    {% if not search_categories and not search_articles %}
+        <div class="alert alert-info">
+            Не найдено результатов по запросу "{{ search_query }}".
+        </div>
+    {% endif %}
+{% endif %}
+
+</div>
+{% endblock %}

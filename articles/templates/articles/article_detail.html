@@ -86,6 +86,7 @@
 
 <script src="{% static 'ckeditor.js' %}"></script>
 <script>
+    {% if request.user.is_staff %}
     InlineEditor
         .create(document.querySelector('#editor'))
         .then(editor => {
@@ -121,5 +122,6 @@
         .catch(error => {
             console.error('Ошибка инициализации редактора:', error);
         });
+        {% endif %}
 </script>
 {% endblock %}

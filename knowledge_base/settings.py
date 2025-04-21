@@ -21,9 +21,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'development-key')
-DEBUG = os.environ.get('DJANGO_DEBUG', '') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+SECRET_KEY = 'dw%r#xz^-(&#dx#iu@59qmr^05x3hycys7xh0^x-7rc0_)m@7p'
+DEBUG = True
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -83,14 +83,13 @@ WSGI_APPLICATION = 'knowledge_base.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'project_database'),
-        'USER': os.environ.get('DB_USER', 'admin_user'),
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
-        'HOST': os.environ.get('DB_HOST', '127.0.0.1'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
+        'NAME': 'project_database',
+        'USER': 'admin_user',
+        'PASSWORD': 'NewPassword123',
+        'HOST': 'localhost',
+        'PORT': '5432',  # лучше явно указать порт
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

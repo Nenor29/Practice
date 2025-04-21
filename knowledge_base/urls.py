@@ -24,5 +24,11 @@ urlpatterns = [
     path('', include('articles.urls')),
     path('ckeditor5/', include('django_ckeditor_5.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+try:
+    from .local_settings import *
+except ImportError:
+    from .prod_settings import *
 

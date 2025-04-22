@@ -13,19 +13,14 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'development-key')
+DEBUG = False
+ALLOWED_HOSTS = ['timatid7.beget.tech', 'www.timatid7.beget.tech']
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dw%r#xz^-(&#dx#iu@59qmr^05x3hycys7xh0^x-7rc0_)m@7p'
-DEBUG = True
-ALLOWED_HOSTS = []
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,7 +33,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',  
     'django_ckeditor_5',
-    'whitenoise.runserver_nostatic'
+
 
 ]
 
@@ -85,9 +80,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'project_database',
         'USER': 'admin_user',
-        'PASSWORD': 'NewPassword123',
-        'HOST': 'localhost',
-        'PORT': '5432',  # лучше явно указать порт
+        'PASSWORD': 'NewPassword123__',
+        'HOST': 'filichfonkon.beget.app',
+        'PORT': '5432',
     }
 }
 
@@ -126,18 +121,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-    
-]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 CKEDITOR_UPLOAD_PATH = "uploads/ckeditor/"
-
+CKEDITOR_5_UPLOAD_PATH = "uploads/ckeditor5/"
 customColorPalette = [
         {
             'color': 'hsl(4, 90%, 58%)',
@@ -165,8 +157,7 @@ customColorPalette = [
         },
     ]
 
-CKEDITOR_5_CUSTOM_CSS = 'path_to.css' # optional
-CKEDITOR_5_FILE_STORAGE = "path_to_storage.CustomStorage" # optional
+
 CKEDITOR_5_CONFIGS = {
     'default': {
         'toolbar': ['heading', '|', 'bold', 'italic', 'link',

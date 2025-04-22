@@ -84,7 +84,7 @@
 </section>
 
 
-<script src="{% static 'ckeditor.js' %}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/inline/ckeditor.js"></script>
 <script>
     {% if request.user.is_staff %}
     InlineEditor
@@ -125,3 +125,5 @@
         {% endif %}
 </script>
 {% endblock %}
+
+

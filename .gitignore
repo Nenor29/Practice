@@ -1,8 +1,7 @@
-# Игнорировать все миграции, кроме __init__.py
+
 */migrations/*.py
 !*/migrations/__init__.py
 
-# Кэш-компиляция Python
 __pycache__/
 *.py[cod]
 *.pyo
@@ -10,25 +9,20 @@ __pycache__/
 
 local_settings.py
 prod_settings.py
+settings.spy
 
-# Медиафайлы (например, загружаемые пользователями изображения)
 media/*
 
-# Виртуальное окружение
 venv/
 
-# Настройки IDE
 .idea/
 .vscode/
 
-# Файлы ОС
 .DS_Store
 Thumbs.db
 
-# Секреты и переменные окружения
 *.env
 .env
 
-# Логи и pid-файлы
 *.log
 *.pid

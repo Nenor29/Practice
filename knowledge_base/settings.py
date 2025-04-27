@@ -18,8 +18,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'development-key')
-DEBUG = False
-ALLOWED_HOSTS = ['timatid7.beget.tech', 'www.timatid7.beget.tech']
+DEBUG = True
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 INSTALLED_APPS = [
@@ -80,8 +80,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'project_database',
         'USER': 'admin_user',
-        'PASSWORD': 'NewPassword123__',
-        'HOST': 'filichfonkon.beget.app',
+        'PASSWORD': 'NewPassword123',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -121,7 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
